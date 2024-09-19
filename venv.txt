@@ -1,0 +1,4 @@
+cd #(locate folder)
+virtualenv venv
+venv\Scripts\activate
+pip install -r starter_code/requirements.txt

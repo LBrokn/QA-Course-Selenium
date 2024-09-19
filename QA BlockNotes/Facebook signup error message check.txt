@@ -1,0 +1,98 @@
+using FsCheck.Experimental;
+using NUnit.Framework;
+using NUnit.Framework.Legacy;
+using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Support.UI;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace NUTest
+{
+    public class Program
+    {
+
+        IWebDriver driver = new ChromeDriver();
+
+        static void Main(string[] args)
+        {
+        }
+
+        [SetUp]
+        public void Initialize()
+        {
+            driver.Navigate().GoToUrl("https://facebook.com");
+        }
+
+        [Test]
+        public void ExecuteTest()
+        {
+            driver.Manage().Window.Maximize();
+
+
+            IWebElement SignUp = driver.FindElement(By.LinkText("Create new account"));
+            SignUp.Click();
+
+            Thread.Sleep(5000);
+
+            IWebElement FirstName = driver.FindElement(By.Name("firstname"));
+            FirstName.SendKeys("Lucas");
+
+            IWebElement LastName = driver.FindElement(By.Name("lastname"));
+            LastName.SendKeys("Tester");
+
+            IWebElement Email = driver.FindElement(By.Name("reg_email__"));
+            Email.SendKeys("lblblbTESTACCOUNT2003@lblblb.com");
+
+            IWebElement Remail = driver.FindElement(By.Name("reg_email_confirmation__"));
+            Remail.SendKeys("lblblbTESTACCOUNT2003@lblblb.com");
+
+            IWebElement password = driver.FindElement(By.Name("reg_passwd__"));
+            password.SendKeys("123password123");
+
+            IWebElement month = driver.FindElement(By.Id("month"));
+            var selectElementMonth = new SelectElement(month);
+            selectElementMonth.SelectByValue("3");
+
+            IWebElement day = driver.FindElement(By.Id("day"));
+            var selectElementDay = new SelectElement(day);
+            selectElementDay.SelectByValue("6");
+
+            IWebElement year = driver.FindElement(By.Id("year"));
+            var selectElementYear = new SelectElement(year);
+            selectElementYear.SelectByValue("2003");
+
+            IWebElement genderButton = driver.FindElement(By.ClassName("_8esa"));
+            genderButton.Click();
+
+            IWebElement SignUpButton = driver.FindElement(By.Name("websubmit"));
+            SignUpButton.Click();
+
+            Thread.Sleep(5000);
+            IWebElement ErrorMessage = driver.FindElement(By.XPath("//*[@id=\"reg_error_inner\"]"));
+            Assert.That(ErrorMessage.Text.Contains("There was an error with your registration. Please try registering again."));
+
+
+
+
+
+
+          
+
+        }
+
+
+
+        [TearDown]
+        public void CloseTest()
+        {
+           // driver.Close();
+        }
+
+
+        
+    }
+ }

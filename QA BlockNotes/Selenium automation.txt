@@ -1,0 +1,56 @@
+using NUnit.Framework;
+using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Selenium_Automation
+{
+    class Program
+    {
+        // Create a reference for Chrome browser
+        IWebDriver driver = new ChromeDriver();
+
+        string ActualResult;
+        string ExpectedResult = "Google";
+
+        static void Main(string[] args)
+        {
+        }
+
+        [SetUp]
+        public void Initialize()
+        {
+            // Go to Google page
+            driver.Navigate().GoToUrl("https://www.google.com");
+        }
+
+        [Test]
+        public void ExecuteTest()
+        {
+            // Make the browser full screen
+            driver.Manage().Window.Maximize();
+
+            // Find the element
+            IWebElement searchBox = driver.FindElement(By.Name("q"));
+
+            //Type something in the search bar
+            searchBox.SendKeys("Test");
+
+            ActualResult = driver.Title;
+
+            // Assert
+            Assert.ReferenceEquals(ActualResult, ExpectedResult);
+        }
+
+        [TearDown]
+        public void CloseTest()
+        { 
+            // Close the browser
+            driver.Quit();
+        }
+    }
+}

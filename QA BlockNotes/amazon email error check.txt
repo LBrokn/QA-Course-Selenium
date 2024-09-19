@@ -1,0 +1,69 @@
+using FsCheck.Experimental;
+using NUnit.Framework;
+using NUnit.Framework.Legacy;
+using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace NUTest
+{
+    public class Program
+    {
+
+        IWebDriver driver = new ChromeDriver();
+
+        static void Main(string[] args)
+        {
+        }
+
+        [SetUp]
+        public void Initialize()
+        {
+            driver.Navigate().GoToUrl("https://amazon.com");
+        }
+
+        [Test]
+        public void ExecuteTest()
+        {
+            driver.Manage().Window.Maximize();
+
+           
+            IWebElement SignIn = driver.FindElement(By.Id("nav-link-accountList"));
+            SignIn.Click();
+
+            IWebElement EmailField = driver.FindElement(By.Id("ap_email"));
+            EmailField.SendKeys("lblblb2003@gmail.com");
+
+            IWebElement ContinueButton = driver.FindElement(By.Id("continue"));
+            ContinueButton.Click();
+
+            IWebElement ErrorMessage = driver.FindElement(By.ClassName("a-alert-heading"));
+            string ActualErrorMessageText = ErrorMessage.Text;
+            string ExpectedErrorMessageText = "There was a problem";
+
+            ClassicAssert.AreEqual(ActualErrorMessageText, ExpectedErrorMessageText);
+
+ 	    //*[@id="auth-error-message-box"]/div/h4
+  	    driver.FindElement(By.XPath"//*[@id=\"auth-error-message-box\"]/div/h4")
+            
+            
+            
+            
+        }
+
+
+
+        [TearDown]
+        public void CloseTest()
+        {
+            driver.Close();
+        }
+
+
+        
+    }
+ }
